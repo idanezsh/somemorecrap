@@ -1,0 +1,65 @@
+#!/bin/bash
+# Upgrade script
+# 
+# Copyright (c) 2001, PineApp Ltd.
+# Version 0.02
+#
+# 17/04/01 - Initial version.
+# 02/05/01 - Fully Functional version.
+
+FILENAME=$1
+
+if [ ! $FILENAME ]; then
+   echo "usage: upgradesoft: <filename>"
+   exit
+fi
+
+
+### Upgrade Software
+
+upgrade ()
+{
+cd /tmp
+mkdir Update.$FILENAME
+cd Update.$FILENAME
+DELDIR="Update.$FILENAME"
+
+  if [ ! -f /usr/local/pineapp/updates/$FILENAME ]; then
+   echo "Wrong File !"    
+   exit
+  fi  
+  unzip -P Mail-SeCure1038383Update3923810148281Key32848101Encrypted9188281 /usr/local/pineapp/updates/$FILENAME 1>/dev/null 2>/dev/null
+  
+  if [ ! -f update ]; then 
+     echo "Wrong File !"
+     exit
+  fi
+  mcrypt -d -k LaChacha 283fsdfkj 238sjaljk 238uadsjh 3u90adkaj d83ue0udakj 89u120ajsdkl Clave -a rc2 update 1>/dev/null 2>/dev/null
+  FILENAME=update.dc
+  
+  if [ ! -f $FILENAME ]; then 
+     echo "Wrong file !"
+     exit
+  fi
+  
+  tar xfz $FILENAME 2>/dev/null
+  
+  if [ ! -f "PineApp_Update" ]; then
+     echo " Wrong file !"
+     exit
+  fi
+
+  chmod +x "PineApp_Update"
+  ./PineApp_Update 1>/dev/null 2>/dev/null
+  wait
+  
+  cd /tmp
+  rm -r -f $DELDIR 2>/dev/null
+}
+
+upgrade
+
+# all done
+exit 0
+
+

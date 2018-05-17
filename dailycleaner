@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Daily Cleaner, check all relevant directory and remove files
+# 
+# Copyright (c) 2001-2005, PineApp Ltd.
+# $Id: dailycleaner,v 1.1.1.1 2006/01/09 14:33:56 smasher Exp $
+
+# /var/log is limited to 1GB of data in total, removes
+# only *.tgz files.
+
+
+/usr/local/pineapp/dirclean 200000 /var/log \*.gz
+/usr/local/pineapp/dirclean 100000 /var/log/squid \*.gz
+/usr/local/pineapp/dirclean 100000 /var/log/apache \*.gz
+/usr/local/pineapp/dirclean 50000 /var/log/dansguardian \*.gz
+
+# /var/spool/qmailscan is limited to 250mb of data in total.
+
+/usr/local/pineapp/dirclean 200000 /var/spool/qmailscan \*.gz
+
+# Quarantine is limited via rc.pineapp files.
+cat /etc/rc.pineapp/rc.scanner | grep "=" > /tmp/rc.dailycleaner
+chmod +x /tmp/rc.dailycleaner
+. /tmp/rc.dailycleaner
+rm -f /tmp/rc.dailycleaner
+
+# clear razor log
+
+rm -f /var/qmail/.razor/*.log 2>/dev/null
